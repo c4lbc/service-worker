@@ -2,10 +2,10 @@ const cacheName = 'v1';
 
 const cacheAssets = [
   'index.html',
-  'client.html',
-  'event.html',
-  'media.html',
-  'weather.html',
+  'article1.html',
+  'article2.html',
+  'article3.html',
+  'article4.html',
   '/css/style.css',
   '/js/main.js'
 ];
