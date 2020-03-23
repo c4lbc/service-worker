@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Service Worker Test</title>
+  <script>
+    function fadeInPage() {
+      if (!window.AnimationEvent) {
+        return;
+      }
+      var fader = document.getElementById('fader');
+      fader.classList.add('fade-out');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!window.AnimationEvent) {
+        return
+      }
+
+      var anchors = document.getElementsByTagName('a');
+
+      for (var idx = 0; idx < anchors.length; idx += 1) {
+        if (anchors[idx].hostname !== window.location.hostname) {
+          return;
+        }
+
+        anchors[idx].addEventListener('click', function (event) {
+          var fader = document.getElementById('fader'),
+            anchor = event.currentTarget;
+
+          var listener = function () {
+            window.location = anchor.href;
+            fader.removeEventListener('animationend', listener);
+          };
+          fader.addEventListener('animationend', listener);
+
+          event.preventDefault();
+          fader.classList.add('fade-in');
+        });
+      }
+    });
+
+    window.addEventListener('pageshow', function (event) {
+      if (!event.persisted) {
+        return;
+      }
+      var fader = document.getElementById('fader');
+      fader.classList.remove('fade-in');
+    });
+  </script>
+</head>
+
+<body>
+  <svg id="fader"></svg>
+  <script>
+    fadeInPage();
+  </script>
+  <nav>
+    <input type="checkbox" id="nav" class="hidden">
+    <label for="nav" class="nav-btn">
+      <i></i>
+      <i></i>
+    </label>
+    <div class="logo">
+      <a href="index.html">
+        Service Worker</a> </div> <div class="nav-wrapper">
+          <ul>
+            <li class="nav-item"><a href="index.html">Home</a></li>
+            <li class="nav-item"><a href="article1.html">Article 1</a></li>
+            <li class="nav-item"><a href="article2.html">Article 2</a></li>
+            <li class="nav-item"><a href="article3.html">Article 3</a></li>
+            <li class="nav-item"><a href="article4.html">Article 4</a></li>
+          </ul>
+    </div>
+  </nav>
+  <main>
+    <h2>Article 1</h2>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis repellendus eligendi blanditiis quis labore
+      veritatis,
+      autem exercitationem hic itaque fugiat quae aut temporibus quod iste quibusdam, nisi distinctio quisquam?
+      Repudiandae
+      aut deserunt cumque vitae unde rerum quis omnis quidem pariatur.</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis repellendus eligendi blanditiis quis labore
+      veritatis,
+      autem exercitationem hic itaque fugiat quae aut temporibus quod iste quibusdam, nisi distinctio quisquam?
+      Repudiandae
+      aut deserunt cumque vitae unde rerum quis omnis quidem pariatur.</p>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
